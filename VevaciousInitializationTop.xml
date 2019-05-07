@@ -1,0 +1,141 @@
+<Vevacious_defaults>
+
+<!--
+#  VevaciousInitialization.xml
+#
+#  Created on: Oct 8, 2012
+#      Author: Ben O'Leary (benjamin.oleary@gmail.com)
+#      Copyright 2012 Ben O'Leary
+#      Modified on: Jul 9, 2018
+#      Author: José Eliel Camargo-Molina (Elielcamargomolina@gmail.com)
+#      This file is part of Vevacious, released under the
+#      GNU General Public License. Please see the accompanying
+#      README.Vevacious.txt file for a full list of files, brief documentation
+#      on how to use these classes, and further details on the license.
+#
+ -->
+
+  <!-- hom4ps2_dir is where the executable hom4ps2 is. absolute paths such as
+       /home/hom4ps2/ can be used. -->
+  <hom4ps2_dir>
+  ./HOM4PS2/
+  </hom4ps2_dir>
+
+  <!-- homotopy_type is 1 for polyhedral homotopy or 2 for linear homotopy.
+       actually, for generic QFT potentials, linear homotopy is probably the
+       faster option. -->
+  <homotopy_type>
+  2
+  </homotopy_type>
+
+  <!-- imaginary_tolerance is the tolerance for imaginary parts of VEVs found
+       as solutions to the tree-level tadpole equations, since it is possible
+       that a numerical precision error could lead to what should be an exact
+       cancellation leaving behind a small imaginary part. it is in units of
+       GeV, as the other dimensionful values are assumed so since that is how
+       they are in the SLHA standard. -->
+  <imaginary_tolerance>
+  0.000001
+  </imaginary_tolerance>
+
+  <!-- python_wrapper is which Python wrapper for MINUIT to use. originally
+       Vevacious required PyMinuit specifically, but now IMinuit can be used
+       instead, which is probably preferable, as PyMinuit has been abandoned by
+       its author. the choice here is either PYMINUIT or IMINUIT, but is not
+       case-sensitive (e.g. iminuit or PyMinuit will also be accepted). -->
+  <python_wrapper>
+  IMINUIT
+  </python_wrapper>
+
+  <!-- model_file is where the loop-corrected potential stuff as written by
+       SARAH is. absolute paths such as /home/vevacious/MyModel/MyModel.vin can
+       be used. /home/andreas/VEVACIOUS/Vevacious-1.2.03/Vevacious/models/pure_SLHA/pure_SLHA2_MSSM_RealHiggsAndStauVevs.vin  /home/andreas/VEVACIOUS/Vevacious-1.2.03/Vevacious/models/only_with_SARAH-SPheno/SARAH-SPhenoMSSM_RealHiggsAndStauAndStopVevs.vin-->
+  
+  <model_file>
+  ./Vevacious-1.2.03/Vevacious/models/only_with_SARAH-SPheno/SARAH-SPhenoMSSM_RealHiggsAndStopVevs.vin
+  </model_file>
+
+  <!-- slha_file is where the Lagrangian parameters in SLHA format are.
+       absolute paths such as /home/spheno/MyModel/SPheno.spc.MyModel can be
+       used. -->
+  <slha_file>
+  ./SPheno-4.0.3/SPheno.spc.MSSM
+  </slha_file>
+
+  <!-- output is where the loop-corrected minimum, as found by PyMinuit
+       starting from the HOM4PS2 extrema, should be written. absolute paths
+       such as /home/vevacious/MyModel/MyResult.vout can be used. -->
+  <result_file>
+  ./Top.vout
+  </result_file>
+
+  <!-- saddle_nudges is the comma-separated list of nudges in GeV that should
+       be used to nudge PyMinuit off any saddle points where it has come to
+       rest. -->
+  <saddle_nudges>
+  1.0, 5.0, 20.0
+  </saddle_nudges>
+
+  <!-- ct_path is the path to where pathDeformation.py & tunneling1D.py are
+       found. absolute paths such as /home/cosmotransitions/ can be used. -->
+  <ct_path>
+  ./CosmoTransitions-2.0a2/cosmoTransitions
+  </ct_path>
+
+  <!-- roll_tolerance is the tolerance for whether extrema are identified with
+       each other. If roll_tolerance is for example 0.05, then extrema A and B
+       are considered to be both at the same extremum within numerical errors
+       if the length of the vector of VEV differences is less than 0.05 * the
+       length of the longer of the 2 vectors of VEVs. E.g. if A is
+       vd = 24.42, vu = 245.0 and B is vd = 24.39, vu = 242.7, the length of A
+       is 246.2140, the length of B is 243.9225, so the longer length is
+       246.2140; the length of their difference is 2.300196 which is less than
+       0.05 * 246.2140, so A & B are considered to be the same extremum. (This
+       is important to avoid attempting calculating the tunneling time from the
+       input VEVs to what should be exactly the same point, that was just not
+       found exactly due to numerical issues.) -->
+  <roll_tolerance>
+  0.1
+  </roll_tolerance>
+
+    <!--
+  When tunnel_to_global is set to true, the panic vacuum (the one to which 
+  tunneling is calculated) will always be the global minimum. When set to false
+  the closest deepest minimum to the DSB will be set as the panic vacuum.
+  If set to true, be careful to check that the global minimum field values are 
+  not too far off the scale at which couplings are evaluated, as if they are it 
+  is more sensible to use the renormalization group improved potential ( which 
+  is not implemented in Vevacious yet). Typically closer minima will yield shorter
+  lifetimes, so use this with caution. USE WITH CAUTION! set to False by default.
+  -->
+  <tunnel_to_global>
+  False
+  </tunnel_to_global>
+  
+  <!--
+  tunnel_thermally tells Vevacious whether tunneling at non-zero temperature should
+  be calculated.
+  -->
+  <tunnel_thermally>
+  False
+  </tunnel_thermally>
+  
+  
+  <!-- lifetime_threshold is the fraction of the age of the known Universe used
+       as a threshold for whether a parameter point is denoted as short-lived
+       or long-lived by comparison with its calculated tunneling time at zero
+       temperature. The default of 0.217 (about 3 gigayears) corresponds to a
+       survival probability of about 1% assuming a Poisson distribution. -->
+  <lifetime_threshold>
+  0.217
+  </lifetime_threshold>
+  
+  <!-- thermal_survival_threshold is the fraction used as a threshold for
+       whether a parameter point is denoted as having a low or high probability
+       to survive thermal tunneling. -->
+  <thermal_survival_threshold>
+  0.1
+  </thermal_survival_threshold>
+
+</Vevacious_defaults>
+
